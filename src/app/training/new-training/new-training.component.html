@@ -1,0 +1,31 @@
+<section class="new-training" fxLayout fxLayoutAlign="center">
+    <form (ngSubmit)="onStart(f)" #f="ngForm">
+    <mat-card *ngIf="!(isLoading$ | async)" fxFlex="400px" fxFlex.xs="100%">
+        <mat-card-title fxLayoutAlign="center">
+            Time to start a Workout.
+        </mat-card-title>
+        <mat-card-content *ngIf="!(exercises$ | async)" fxLayoutAlign="center">
+            <h3>Fetching Error!!</h3>
+        </mat-card-content>
+        <mat-card-content *ngIf="exercises$ | async" fxLayoutAlign="center">
+            <mat-form-field>
+                <mat-select placeholder="Exercise" ngModel name="exercise" required>
+                    <mat-option *ngFor="let exercise of exercises$ | async" [value]="exercise.id">
+                        {{exercise.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions fxLayoutAlign="center">
+            <button *ngIf="exercises$ | async" type="submit" mat-button [disabled]="f.invalid">Start</button>
+            <button *ngIf="!(exercises$ | async)" type="button" mat-button (click)="onFetchAgain()">Fetch Again</button>
+        </mat-card-actions>
+    </mat-card>
+    <mat-card *ngIf="isLoading$ | async" fxLayoutAlign="center" fxFlex="400px" fxFlex.xs="100%" style="height: 120%;">
+        <mat-spinner>
+        </mat-spinner>
+    </mat-card>
+</form>
+</section>
+
+

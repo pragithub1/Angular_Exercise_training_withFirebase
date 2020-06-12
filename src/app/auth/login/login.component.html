@@ -1,0 +1,32 @@
+<section class="login-form">
+    <form class="form" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" #f="ngForm" (ngSubmit)="onLogin(f)">
+        <mat-form-field class="matInput">
+            <input 
+            matInput 
+            type="email" 
+            placeholder="Your Email" 
+            ngModel 
+            name="email"
+            email
+            required
+            #emailInput="ngModel"/>
+            <mat-error *ngIf="emailInput.hasError('required')">Email must not be empty.</mat-error>
+            <mat-error *ngIf="!emailInput.hasError('required')">Email is invalid.</mat-error>
+        </mat-form-field>
+        <mat-form-field class="matInput" hintLabel="Should be atleast 6 character long.">
+            <input
+            matInput 
+            type="password" 
+            placeholder="Your Password" 
+            ngModel 
+            name="password"
+            required
+            minlength="6"
+            #pwLen/>
+            <mat-hint align="end">{{ pwLen.value?.length }}/6</mat-hint>
+            <mat-error>Has to be at least 6 character Long.(<mat-hint color="red">{{ pwLen.value?.length }}/6</mat-hint>)</mat-error>
+        </mat-form-field>
+        <button *ngIf="!(isLoading$ | async)" class="matInput" type="submit" mat-raised-button color="primary" [disabled]="f.invalid">Login</button>
+        <mat-spinner *ngIf="isLoading$ | async"></mat-spinner>
+    </form>
+</section>
